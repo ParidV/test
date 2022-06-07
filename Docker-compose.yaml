@@ -1,47 +1,47 @@
 version: '3'
 services:
- web:
- image: fraunhoferiosb/frost-server:latest
- container_name: FROSTSERVER_COMPOSE
- environment:
- - serviceRootUrl=http://138.246.225.0:9301/FROST-Server
- - http_cors_enable=true
- - http_cors_allowed.origins=*
- - persistence_db_driver=org.postgresql.Driver
- - persistence_db_url=jdbc:postgresql://database:5432/sensorthings
- - persistence_db_username=sensorthings
- - persistence_db_password=ChangeMe
- - persistence_autoUpdateDatabase=true
- - auth.provider=de.fraunhofer.iosb.ilt.frostserver.auth.keycloak.KeycloakAuthProvider
- - auth.keycloakConfigUrl=http://tuzehez-hefiot.srv.mwn.de:8088/auth/realms/master/clientsregistrations/install/frost
- ports:
- - 9301:8080
- - 1885:1883
- links:
- - "authentication:keycloak"
- depends_on:
- - database
- - authentication
- database:
- image: postgis/postgis:11-2.5-alpine
- container_name: POSTGRES_COMPOSE
- environment:
- - POSTGRES_DB=sensorthings
- - POSTGRES_USER=sensorthings
- - POSTGRES_PASSWORD=ChangeMe
- volumes:
- - postgis_volume:/var/lib/postgresql/data
- authentication:
- image: quay.io/keycloak/keycloak:10.0.2
- container_name: KEYCLOAK_COMPOSE
- environment:
- - KEYCLOAK_USER=admin
- - KEYCLOAK_PASSWORD=admin
- ports:
- - 8443:8443
- - 8088:8080
- volumes:
- - keycloak_volume:/var/lib/keycloak/data
+  web:
+    image: fraunhoferiosb/frost-server:latest
+    container_name: FROSTSERVER_COMPOSE
+    environment:
+      - serviceRootUrl=http://138.246.225.0:9301/FROST-Server
+      - http_cors_enable=true
+      - http_cors_allowed.origins=*
+      - persistence_db_driver=org.postgresql.Driver
+      - persistence_db_url=jdbc:postgresql://database:5432/sensorthings
+      - persistence_db_username=test
+      - persistence_db_password=test
+      - persistence_autoUpdateDatabase=true
+      - auth.provider=de.fraunhofer.iosb.ilt.frostserver.auth.keycloak.KeycloakAuthProvider
+      - auth.keycloakConfigUrl=http://tuzehez-hefiot.srv.mwn.de:8088/auth/realms/master/clientsregistrations/install/frost
+    ports:
+      - 9301:8080
+      - 1885:1883
+    links:
+      - "authentication:keycloak"
+    depends_on:
+      - database
+      - authentication
+  database:
+    image: postgis/postgis:11-2.5-alpine
+    container_name: POSTGRES_COMPOSE
+    environment:
+      - POSTGRES_DB=test
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+    volumes:
+      - postgis_volume:/var/lib/postgresql/data
+  authentication:
+    image: quay.io/keycloak/keycloak:10.0.2
+    container_name: KEYCLOAK_COMPOSE
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+    ports:
+      - 8443:8443
+      - 8088:8080
+    volumes:
+      - keycloak_volume:/var/lib/keycloak/data
 volumes:
- postgis_volume:
- keycloak_volume:
+  postgis_volume:
+  keycloak_volume:
