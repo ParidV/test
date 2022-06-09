@@ -15,7 +15,7 @@ services:
       - persistence_alwaysOrderbyId=true
       - auth.provider=de.fraunhofer.iosb.ilt.frostserver.auth.keycloak.KeycloakAuthProvider 
       - auth.keycloakConfigUrl=http://138.246.236.112:8088/auth/realms/master/clients-registrations/install/frostserver     
-      - auth.keycloakConfigSecret=254d5dab-1a2c-4742-83c0-a409bd10c49f
+      - auth.keycloakConfigSecret=d3dda0f7-820d-4ba7-9481-b715f9c62e4e
     ports:
       - 8080:8080
       - 1889:1883
